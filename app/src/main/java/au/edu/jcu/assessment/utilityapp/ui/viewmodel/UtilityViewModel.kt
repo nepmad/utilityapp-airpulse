@@ -34,7 +34,7 @@ class UtilityViewModel(
                 )
             }.onFailure { throwable ->
                 _uiState.value = UtilityUiState.Error(
-                    message = throwable.localizedMessage ?: "Failed to fetch live air quality data. Please check network."
+                    message = throwable.localizedMessage ?: "Failed to fetch live air quality data. Please check your network connection."
                 )
             }
         }
