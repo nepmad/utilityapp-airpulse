@@ -1,3 +1,4 @@
+// Main activity entry point
 package au.edu.jcu.assessment.utilityapp
 
 import android.os.Bundle
