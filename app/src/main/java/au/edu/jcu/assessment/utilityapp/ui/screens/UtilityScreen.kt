@@ -1,4 +1,3 @@
-// Air quality metrics visual card styling
 package au.edu.jcu.assessment.utilityapp.ui.screens
 
 import androidx.compose.foundation.layout.*
@@ -286,4 +285,3 @@ fun getAqiHealthAdvice(aqi: Int): String {
         else -> "Health alert! Everyone may experience more serious health effects. Limit outdoor activity."
     }
 }
-// Health recommendations mapped to EPA AQI standard thresholds
