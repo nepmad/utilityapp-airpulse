@@ -13,13 +13,16 @@ import au.edu.jcu.assessment.utilityapp.ui.screens.UtilityScreen
 import au.edu.jcu.assessment.utilityapp.ui.viewmodel.SettingsViewModel
 import au.edu.jcu.assessment.utilityapp.ui.viewmodel.UtilityViewModel
 
+// Enum defining bottom navigation screen targets
 enum class AppScreen { UTILITY, SETTINGS }
 
+// Root Composable holding app navigation and bottom tab bar
 @Composable
 fun UtilityApp(
     utilityViewModel: UtilityViewModel = viewModel(),
     settingsViewModel: SettingsViewModel = viewModel()
 ) {
+    // Currently active screen state
     var currentScreen by remember { mutableStateOf(AppScreen.UTILITY) }
 
     Scaffold(
@@ -40,6 +43,7 @@ fun UtilityApp(
             }
         }
     ) { innerPadding ->
+        // Render screen component based on active tab
         when (currentScreen) {
             AppScreen.UTILITY -> UtilityScreen(
                 viewModel = utilityViewModel,

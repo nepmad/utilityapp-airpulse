@@ -11,6 +11,7 @@ import au.edu.jcu.assessment.utilityapp.data.model.AqiStandard
 import au.edu.jcu.assessment.utilityapp.data.model.TemperatureUnit
 import au.edu.jcu.assessment.utilityapp.ui.viewmodel.SettingsViewModel
 
+// Settings screen providing controls for default city, AQI format, and temperature metrics
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
@@ -36,6 +37,7 @@ fun SettingsScreen(
         ) {
             Text("App Preferences", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
 
+            // Location selection dropdown
             Card(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text("Default Location", style = MaterialTheme.typography.titleSmall)
@@ -71,6 +73,7 @@ fun SettingsScreen(
                 }
             }
 
+            // AQI format configuration
             Card(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text("AQI Standard Format", style = MaterialTheme.typography.titleSmall)
@@ -92,6 +95,7 @@ fun SettingsScreen(
                 }
             }
 
+            // Temperature unit selection
             Card(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text("Temperature Metric", style = MaterialTheme.typography.titleSmall)

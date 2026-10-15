@@ -13,18 +13,22 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+// ViewModel managing Air Quality state and API requests
 class UtilityViewModel(
     private val repository: AirQualityRepository = AirQualityRepository(NetworkClient.apiService)
 ) : ViewModel() {
 
+    // Internal state flow representing UI status
     private val _uiState = MutableStateFlow<UtilityUiState>(UtilityUiState.Loading)
     val uiState: StateFlow<UtilityUiState> = _uiState.asStateFlow()
 
+    // Load live environmental readings for selected city
     fun loadDataForCity(city: CityLocation) {
         viewModelScope.launch {
             _uiState.value = UtilityUiState.Loading
             val result = repository.fetchAirQuality(city.lat, city.lon)
             result.onSuccess { response ->
+                // Format update timestamp for UI display
                 val timeFormat = SimpleDateFormat("hh:mm a, dd MMM", Locale.getDefault())
                 val formattedTime = timeFormat.format(Date())
                 _uiState.value = UtilityUiState.Success(
@@ -33,6 +37,7 @@ class UtilityViewModel(
                     lastUpdated = formattedTime
                 )
             }.onFailure { throwable ->
+                // Handle network or parsing errors
                 _uiState.value = UtilityUiState.Error(
                     message = throwable.localizedMessage ?: "Failed to fetch live air quality data. Please check network."
                 )

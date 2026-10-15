@@ -24,6 +24,7 @@ import au.edu.jcu.assessment.utilityapp.ui.viewmodel.SettingsViewModel
 import au.edu.jcu.assessment.utilityapp.ui.viewmodel.UtilityUiState
 import au.edu.jcu.assessment.utilityapp.ui.viewmodel.UtilityViewModel
 
+// Main dashboard screen presenting live air quality metrics and health advice
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UtilityScreen(
@@ -31,10 +32,12 @@ fun UtilityScreen(
     settingsViewModel: SettingsViewModel,
     modifier: Modifier = Modifier
 ) {
+    // Observe state from view models
     val uiState by viewModel.uiState.collectAsState()
     val settings by settingsViewModel.settings.collectAsState()
     var expandedCityDropdown by remember { mutableStateOf(false) }
 
+    // Fetch data whenever selected city changes
     LaunchedEffect(settings.selectedCity) {
         viewModel.loadDataForCity(settings.selectedCity)
     }
@@ -44,6 +47,7 @@ fun UtilityScreen(
             TopAppBar(
                 title = { Text("AirPulse", fontWeight = FontWeight.Bold) },
                 actions = {
+                    // Manual refresh action button
                     IconButton(onClick = { viewModel.loadDataForCity(settings.selectedCity) }) {
                         Icon(Icons.Default.Refresh, contentDescription = "Refresh Data")
                     }
@@ -59,6 +63,7 @@ fun UtilityScreen(
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            // Render UI state variations: Loading, Error, or Success
             when (val state = uiState) {
                 is UtilityUiState.Loading -> {
                     Box(
@@ -75,6 +80,7 @@ fun UtilityScreen(
                     }
                 }
                 is UtilityUiState.Error -> {
+                    // Connection error state card
                     Card(
                         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer),
                         modifier = Modifier.fillMaxWidth()
@@ -98,6 +104,7 @@ fun UtilityScreen(
                     val usAqi = current?.usAqi ?: 0
                     val (aqiStatus, aqiColor) = getAqiCategory(usAqi)
 
+                    // City header card
                     Card(
                         modifier = Modifier.fillMaxWidth(),
                         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
@@ -108,6 +115,7 @@ fun UtilityScreen(
                         }
                     }
 
+                    // Main AQI gauge card
                     Card(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(24.dp),
@@ -135,6 +143,7 @@ fun UtilityScreen(
                         }
                     }
 
+                    // Key metrics row
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -153,6 +162,7 @@ fun UtilityScreen(
                         )
                     }
 
+                    // Health recommendations section
                     Card(
                         modifier = Modifier.fillMaxWidth(),
                         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
@@ -170,6 +180,7 @@ fun UtilityScreen(
 
             Text("App Preferences", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
 
+            // Location dropdown selector
             Card(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text("Default Location", style = MaterialTheme.typography.titleSmall)
@@ -205,6 +216,7 @@ fun UtilityScreen(
                 }
             }
 
+            // AQI format selection
             Card(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text("AQI Standard Format", style = MaterialTheme.typography.titleSmall)
@@ -226,6 +238,7 @@ fun UtilityScreen(
                 }
             }
 
+            // Temperature unit selection
             Card(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text("Temperature Metric", style = MaterialTheme.typography.titleSmall)
@@ -250,6 +263,7 @@ fun UtilityScreen(
     }
 }
 
+// Reusable card component for displaying individual metric values
 @Composable
 fun MetricCard(
     title: String,
@@ -267,6 +281,7 @@ fun MetricCard(
     }
 }
 
+// Helper mapping AQI score to label and associated color code
 fun getAqiCategory(aqi: Int): Pair<String, Color> {
     return when {
         aqi <= 50 -> "Good" to Color(0xFF4CAF50)
@@ -277,6 +292,7 @@ fun getAqiCategory(aqi: Int): Pair<String, Color> {
     }
 }
 
+// Helper mapping AQI level to practical health recommendations
 fun getAqiHealthAdvice(aqi: Int): String {
     return when {
         aqi <= 50 -> "Air quality is satisfactory. Enjoy outdoor activities!"

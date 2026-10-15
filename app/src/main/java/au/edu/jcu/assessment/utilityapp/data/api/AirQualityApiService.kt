@@ -4,6 +4,7 @@ import au.edu.jcu.assessment.utilityapp.data.model.AirQualityResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
+// Retrofit interface for querying Open-Meteo Air Quality REST endpoints
 interface AirQualityApiService {
     @GET("v1/air-quality")
     suspend fun getAirQuality(

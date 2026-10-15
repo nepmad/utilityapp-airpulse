@@ -10,10 +10,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
+// ViewModel managing user preference selections
 class SettingsViewModel : ViewModel() {
     private val _settings = MutableStateFlow(UserSettings())
     val settings: StateFlow<UserSettings> = _settings.asStateFlow()
 
+    // Predefined city list with coordinates
     val availableCities = listOf(
         CityLocation("Kathmandu", 27.7172, 85.3240),
         CityLocation("Brisbane", -27.4705, 153.0260),
@@ -22,18 +24,22 @@ class SettingsViewModel : ViewModel() {
         CityLocation("Tokyo", 35.6762, 139.6503)
     )
 
+    // Update current city choice
     fun updateCity(city: CityLocation) {
         _settings.update { it.copy(selectedCity = city) }
     }
 
+    // Update temperature unit preference
     fun updateTemperatureUnit(unit: TemperatureUnit) {
         _settings.update { it.copy(tempUnit = unit) }
     }
 
+    // Toggle AQI standard preference
     fun updateAqiStandard(standard: AqiStandard) {
         _settings.update { it.copy(aqiStandard = standard) }
     }
 
+    // Toggle background auto refresh setting
     fun toggleAutoRefresh(enabled: Boolean) {
         _settings.update { it.copy(autoRefresh = enabled) }
     }

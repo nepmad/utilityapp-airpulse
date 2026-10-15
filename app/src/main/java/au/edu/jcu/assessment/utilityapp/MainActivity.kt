@@ -13,9 +13,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import au.edu.jcu.assessment.utilityapp.ui.UtilityApp
 
+// Main activity entry point for AirPulse utility app
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Enable edge-to-edge layout for translucent system bars
         enableEdgeToEdge()
         setContent {
             MaterialTheme {
@@ -25,6 +27,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                         Box(modifier = Modifier.padding(innerPadding)) {
+                            // Render main app navigation and screens
                             UtilityApp()
                         }
                     }
