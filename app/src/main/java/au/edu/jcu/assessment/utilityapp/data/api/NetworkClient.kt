@@ -1,3 +1,4 @@
+// Network Client configuration for REST API calls
 package au.edu.jcu.assessment.utilityapp.data.api
 
 import okhttp3.OkHttpClient
